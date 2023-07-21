@@ -3,6 +3,11 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@3.2.0
 
+parameters:
+  ko_version:
+    type: string
+    default: "v0.14.1"
+
 commands:
   go-build:
     parameters:
@@ -52,11 +57,11 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v1-googleko
+            - v1-googleko-<< pipeline.parameters.ko_version >>
       # pinning to current latest since ECR bug is fixed:
-      - run: go install github.com/google/ko@v0.14.1
+      - run: go install github.com/google/ko@<< pipeline.parameters.ko_version >>
       - save_cache:
-          key: v1-googleko
+          key: v1-googleko-<< pipeline.parameters.ko_version >>
           paths:
             - /home/circleci/go/pkg/mod/
 
