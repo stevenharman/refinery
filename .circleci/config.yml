@@ -53,8 +53,8 @@ commands:
       - restore_cache:
           keys:
             - v1-googleko
-      # we're pinning to ko 11.2 because it v0.12 can't push to ecr
-      - run: go install github.com/google/ko@v0.11.2
+      # pinning to current latest since ECR bug is fixed:
+      - run: go install github.com/google/ko@v0.14.1
       - save_cache:
           key: v1-googleko
           paths:
